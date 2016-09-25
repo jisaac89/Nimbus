@@ -32,6 +32,9 @@ export default class Dashboard extends React.Component<P,S>{
                     <Button size="xlarge" block className="mt10">
                         STORE
                     </Button>
+                    <Button size="xlarge" block className="mt10">
+                        TEST CI
+                    </Button>
                 </Emerge>
             </Toolbar>
         )

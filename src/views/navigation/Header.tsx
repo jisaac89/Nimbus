@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {observer} from 'mobx-react';
-import {appState} from '../../state/_Store';
+import {appState, inventoryState} from '../../state/_Store';
 import * as classNames from 'classnames';
 import {Align, Button, Toolbar, Checkbox, Table, Layer, Dropdown, Input, Wizard, Modal, Open, Emerge, SlideIn, Transform, Toggle, Shrink} from '../../../recoil/src/index';
 
@@ -17,7 +17,8 @@ render() {
 
         let dashboardView = pathname.pathname ===  '/';
 
-        let inventoryView = pathname.pathname ===  'inventory';
+        let inventoryView = pathname.pathname ===  'inventory' && inventoryState.slideIndex === 0;
+        let inventoryCreate = pathname.pathname === 'inventory' && inventoryState.slideIndex === 1;
 
         let purchasingView = pathname ===  'purchasing';
 
@@ -29,6 +30,7 @@ render() {
                     {dashboardView ? <h1 className={animateClass}>Dashboard</h1> : null }
 
                     {inventoryView ? <h1 className={animateClass}>Inventory</h1> : null }
+                    {inventoryCreate ? <h1 className={animateClass}>Add Item</h1> : null }
                     
                     {purchasingView ? <h1 className={animateClass}>Purchasing Dashboard</h1> : null }
                     

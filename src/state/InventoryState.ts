@@ -25,6 +25,25 @@ export class InventoryState {
     @observable addingLocationForSupplier = '';
     @observable addingLocationForSupplierUnit = '';
 
+    @observable selectedLocations = [];
+    @observable locations = [];
+
+    @observable updateState = false;
+    @observable updateStateLocation = false;
+
+    toggleUpdateState() {
+        this.updateState = !this.updateState;
+    }
+
+    addSelectedLocation(element) {
+        this.toggleUpdateStateLocation();
+        this.selectedLocations.push(element)
+    }
+
+    toggleUpdateStateLocation(){
+        this.updateStateLocation = !this.updateStateLocation;
+    }
+
     handleChangeItemName(name) {
         this.itemName = name;
     }
@@ -54,13 +73,21 @@ export class InventoryState {
     }
 
     submitAddLocation() {
+        const self = this;
         this.productOrderDetails.forEach(element => {
-            if(element.SupplierName === this.addingLocationForSupplier && element.OrderUnitId === this.addingLocationForSupplierUnit){
+            if(element.SupplierName === this.addingLocationForSupplier['_Array'] && element.OrderUnitId === this.addingLocationForSupplierUnit){
                 element['locations'].push({
                     name: this.locationName
                 })
+                // self.locations.push(self.locationName);
             }
         });
+        this.toggleUpdateState();
+        this.addLocationModal = false;
+    }
+
+    closeAddLocationModal() {
+        this.addLocationModal = false 
     }
 
     listenForInventory() {
@@ -102,7 +129,9 @@ export class InventoryState {
         this.locationName = name
     }
 
-    toggleAddLocationModal(){
+    toggleAddLocationModal(element, SupplierKey){
+        this.addingLocationForSupplier = SupplierKey;
+        this.addingLocationForSupplierUnit = element.OrderUnitId;
         this.addLocationModal = !this.addLocationModal;
     }
 

@@ -54,7 +54,7 @@ export default class InventorySupplier extends React.Component<any, any> {
         this.gotoItemUnitStep(5);    
     }
     createProductOrderUnit() {
-        inventoryState.productOrderDetails['locations'] = [];
+        inventoryState.newProductOrderDetailObject['locations'] = [];
         inventoryState.createProductOrderUnit();
         inventoryState.orderDetailsCreateOpen = false;
         // inventoryState.newProductOrderDetailObject = {};
@@ -108,7 +108,7 @@ export default class InventorySupplier extends React.Component<any, any> {
             return (
                 <Emerge enter="fadeIn">
                     <Toolbar className="mt10" spacing>
-                        <h4 className="mb10"><a>4) How many <strong>{issueUnits}</strong> are in the <strong>{orderUnit}</strong>?</a></h4>
+                        <h4 className="mb10"><a>4) How many <strong>{issueUnits}</strong>(s) are in the <strong>{orderUnit}</strong>?</a></h4>
                         <Input onChange={this.setStockAmount.bind(this)} type="text" placeholder="Stock Amount" />
                     </Toolbar>
                 </Emerge>

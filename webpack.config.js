@@ -19,7 +19,7 @@ var config = {
     path: buildPath,
     filename: 'bundle.js',
     sourceMapFilename: 'bundle.map.js',
-    publicPath: '/'
+    publicPath: '/dist'
   },
   resolve: {
     alias: [],

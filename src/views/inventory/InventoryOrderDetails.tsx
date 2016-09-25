@@ -5,6 +5,18 @@ import * as classNames from 'classnames';
 import {Align, Button, Toolbar, Checkbox, Table, Layer, Dropdown, Input, Wizard, Modal, Open, Emerge, SlideIn, Transform, Toggle, Shrink} from '../../../recoil/src/index';
 
 @observer
+class LocationsTemplate extends React.Component<any,any>{
+    render() {
+        let {element} = this.props;
+        if (element && element.locations && element.locations.length > 0) {
+            return (
+                <Table columns={[{name: 'name', title: 'Location'}]} className="pl60" dataSource={element.locations}></Table>
+            )
+        } else return null;
+    }
+}
+
+@observer
 export default class InventoryOrderDetails extends React.Component<any, any> {
     toggleCreateNewOrderDetails(element, SupplierKey){
         inventoryState.toggleCreateNewOrderDetails(element, SupplierKey);
@@ -12,16 +24,12 @@ export default class InventoryOrderDetails extends React.Component<any, any> {
     OrderUnitName(item, key) {
         return (
             <div key={key}>
-                <Button size="small" theme="primary">{item}</Button>
+                <Button size="small">{item}</Button>
             </div>
         )
     }
     locationsTemplate(element) {
-        if (element && element.locations && element.locations.length > 0) {
-            return (
-                <Table dataSource={element.locations}></Table>
-            )
-        } else return null;
+        return <LocationsTemplate element={element}></LocationsTemplate>
     }
     Equals(item, key) {
         return (
@@ -66,9 +74,25 @@ export default class InventoryOrderDetails extends React.Component<any, any> {
         });
 
         let locationsTemplate = (element) => {
+            if(element.locations.length > 0) {
+                return (
+                    <Toolbar flush size="small">
+                        <Button>{element.locations.length} Location(s)</Button><Button onClick={self.toggleAddLocationModal.bind(self, element, SupplierKey)}  icon="plus" />
+                    </Toolbar>
+                )
+            } else {
+                return (
+                    <Toolbar size="small">
+                        <Button onClick={self.toggleAddLocationModal.bind(self, element, SupplierKey)}  icon="exclamation-triangle" theme="error">Add Location</Button>
+                    </Toolbar>
+                )
+            }
+        }
+
+        let menuTemplate = (element) =>{
             return (
-                <Toolbar size="small">
-                    <Button onClick={self.toggleAddLocationModal.bind(self, element, SupplierKey)}  theme="error">Add Location</Button>
+                <Toolbar flush size="small">
+                    <Button theme="primary" icon="pencil">Edit Item</Button>
                 </Toolbar>
             )
         }
@@ -78,23 +102,28 @@ export default class InventoryOrderDetails extends React.Component<any, any> {
             {name: 'OrderUnitId', title:"Order Unit", template: this.OrderUnitName.bind(this),width: 120 },
             {title: '=',template: this.Equals.bind(this), width: 40},
             { name: 'IssueUnitMultiplier', title: 'Stock Amount', width: 150 },
-            {name: 'IssueUnitId', title:'Issue Units', template: this.IssueUnitName.bind(this)},
-            {title: 'Issue Cost', template: this.issueCost.bind(this)}
+            {name: 'IssueUnitId', title:'Issue Units', template: this.IssueUnitName.bind(this), width: 150},
+            {title: 'Issue Cost', template: this.issueCost.bind(this)},
             {
                 title: 'Locations',
                 template: locationsTemplate,
+                width: 160
+            },
+            {
+                title: 'Menu',
+                template: menuTemplate,
                 width: 120
-            }
+            },
         ]
 
         return (
-            <div className="pl50">
-                <Table dataSource={orders} columns={columns} />
+            <div className="pl60">
+                <Table detailTemplate={this.locationsTemplate.bind(this)} dataSource={orders} columns={columns} />
             </div>
         )
     }
-    toggleAddLocationModal(){
-        inventoryState.toggleAddLocationModal();
+    toggleAddLocationModal(element, SupplierKey){
+        inventoryState.toggleAddLocationModal(element, SupplierKey);
     }
     render() {
 
@@ -114,6 +143,14 @@ export default class InventoryOrderDetails extends React.Component<any, any> {
         }
         
         console.log(supplierKeys);
+
+        let newDataSource = [];
+
+        let createSupplierList = (element) =>{ 
+            newDataSource.push({
+                '_Array' : element
+            })
+        }
         
         return (
             <div className="ps10">
@@ -122,12 +159,15 @@ export default class InventoryOrderDetails extends React.Component<any, any> {
                 </Toolbar>
                 <div className="ptb10">
                     {inventoryState.productOrderDetails.map(createList)}
+                    {supplierKeys.map(createSupplierList)}
                     <Table 
                         searchableKeys={['_Array']} 
                         searchTitle={'Search By Supplier Name'} 
-                        detailTemplateSelectedElements={[supplierKeys[0]]} 
-                        dataSource={supplierKeys} 
+                        detailTemplateSelectedElements={newDataSource}
+                        dataSource={newDataSource} 
+                        columns={[{name: '_Array', title: 'Supplier'}]}
                         detailTemplate={this.detailTemplate.bind(this)} 
+                        detailTemplateHideToggle
                     />
                 </div>
             </div>

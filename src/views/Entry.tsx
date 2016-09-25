@@ -49,12 +49,10 @@ export default class Entry extends React.Component<P,S>{
                         </div>
                     </Transform>
                     <Shrink if={modalIsOpen}>
-                        <Layer>
-                            <SideMenu pathname={location} />
-                            <Transform type="translate" axis='X' push={!mobile ? "right" : null} amount={!mobile ? "300px" : '-300px'} if={appState.menuEnabled}>
-                                {content}
-                            </Transform>
-                        </Layer>
+                        <SideMenu pathname={location} />
+                        <Transform type="translate" axis='X' push={!mobile ? "right" : null} amount={!mobile ? "300px" : '-300px'} if={appState.menuEnabled}>
+                            {content}
+                        </Transform>
                     </Shrink>
                     <DynamicModals pathname={location} />
                     <DynamicFooter modalIsOpen={modalIsOpen} footerIsOpen={footerIsOpen} pathname={location} />

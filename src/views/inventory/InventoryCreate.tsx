@@ -41,28 +41,11 @@ export default class InventoryCreate extends React.Component<P,S>{
                         <Input block placeholder="Secondary Description" />
                         <Input block placeholder="Notes" />
                     </Toolbar>
-                    <div>
+                    <Layer>
                         <InventoryOrderDetails />
-                    </div>
-                    <Toolbar vertical spacing block>
-                        <Input block placeholder="Location Name" />
-                        <Input block placeholder="Description" />
-                        <Input block placeholder="Amount" /> 
-                    </Toolbar>
-                    <Toolbar vertical spacing block>
-                        <Input block placeholder="At what point do you want to place an order?" />
-                        <Input block placeholder={"How many " +inventoryState.item.Description1+" do you want to order from the supplier when you reach the minimum?"} />
-                        <Input block placeholder="Notes" />
-                    </Toolbar>
-                    <Toolbar vertical spacing block>
-                        <Input block placeholder="How many issue units will you be adding?" />
-                    </Toolbar>
+                    </Layer>
                 </Wizard>
-
             </Open>
         )
     }
 }
-
-// <ProductOrderDetails supplierState={this.props.supplierState} inventoryState={this.props.inventoryState} />
-                    

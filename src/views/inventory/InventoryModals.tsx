@@ -16,14 +16,15 @@ export default class InventoryModals extends React.Component<any, any>{
     toggleOrderDetailLocationModal() {
         inventoryState.orderDetailLocationModal = false;
     }
-    toggleAddLocationModal(){
-        inventoryState.toggleAddLocationModal();
+    closeAddLocationModal(){
+        inventoryState.closeAddLocationModal();
     }
     changeLocationName(name){
         inventoryState.changeLocationName(name);
     }
     submitAddLocation() {
-        inventoryState.submitAddLocation.bind(this);
+        console.log('hello');
+        inventoryState.submitAddLocation();
     }
     render() {
         
@@ -34,7 +35,7 @@ export default class InventoryModals extends React.Component<any, any>{
                         <InventorySupplier />
                     </div>
                 </Modal>
-                <Modal title='Add Location' fullScreen open={inventoryState.addLocationModal} onClose={this.toggleAddLocationModal.bind(this)}>
+                <Modal title='Add Location' fullScreen open={inventoryState.addLocationModal} onClose={this.closeAddLocationModal.bind(this)}>
                     <div className="p10">
                         <Toolbar vertical spacing block>
                             <Input required={inventoryState.locationName === ''} onChange={this.changeLocationName.bind(this)} block placeholder="Location Name" />
@@ -42,7 +43,7 @@ export default class InventoryModals extends React.Component<any, any>{
                             <Input block placeholder="How many do you want to order from the supplier when you reach the minimum?" />
                             <Input block placeholder="Notes" />
                             <Input block placeholder="How many issue units will you be adding?" />
-                            <Button onClick={this.submitAddLocation.bind(this)} icon="plus" theme="primary">Add Location</Button>
+                            <Button onClick={this.submitAddLocation.bind(this)} icon="plus" theme="primary">Add Locations</Button>
                         </Toolbar>
                     </div>
                 </Modal>
